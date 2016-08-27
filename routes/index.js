@@ -12,38 +12,17 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/create', function (req, res) {
-  /*var payment = {
-    "intent": "sale",
-    "payer": {
-      "payment_method": "credit_card",
-      "funding_instruments": [{
-        "credit_card": {
-          "number": "5500005555555559",
-          "type": "mastercard",
-          "expire_month": 12,
-          "expire_year": 2018,
-          "cvv2": 111,
-          "first_name": "Joe",
-          "last_name": "Shopper"
-        }
-      }]
-    },
-    "transactions": [{
-      "amount": {
-        "total": "35.00",
-        "currency": "CAD"
-      },
-      "description": "My awesome payment"
-    }]
-  };*/
+router.post('/create', function (req, res) {
+  req.session.name = req.body.name;
+  req.session.email = req.body.email;
+  req.session.type = req.body.type;
   var payment = {
     "intent": "sale",
     "payer": {
       "payment_method": "paypal"
     },
     "redirect_urls": {
-      "return_url": config.opt.full_url + '/execute',
+      "return_url": config.opt.full_url + '/confirm',
       "cancel_url": config.opt.full_url + '/cancel'
     },
     "transactions": [{
@@ -78,9 +57,32 @@ router.get('/create', function (req, res) {
   });
 });
 
+router.get('/confirm', function (req, res) {
+  if (typeof(req.query.PayerID) != "undefined") {
+    req.session.PayerID = req.query.PayerID;
+  }
+  if (typeof(req.session.email) === "undefined") {
+    return res.redirect(config.opt.full_url + '/');
+  }
+  var amount;
+  if (req.session.type === 'student') {
+    amount = "$30";
+  } else {
+    amount = "$35";
+  }
+  res.render('confirm', {
+      title: 'Confirm purchase',
+      userName: req.session.name,
+      userEmail: req.session.email,
+      userType: req.session.type,
+      userAmount: amount
+        });
+
+});
+
 router.get('/execute', function (req, res) {
   var paymentId = req.session.paymentId;
-  var payerId = req.query.PayerID;
+  var payerId = req.session.PayerID;
 
   var details = {
     "payer_id": payerId
@@ -89,6 +91,9 @@ router.get('/execute', function (req, res) {
     if (error) {
       console.log(error);
     } else {
+      delete req.session.name;
+      delete req.session.email;
+      delete req.session.type;
       res.send("Payment received");
     }
   });

@@ -1,5 +1,36 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='stylesheets/style.css')
+    script(src='javascripts/main.js')
+    meta(name="viewport",content="width=device-width, initial-scale=1")
+  body
+    #description
+      h1 Second Annual Battle of the Bands
+      p Last year's Battle of the Bands was a resounding success, this year's is going to be even better. 
+      p Will Peter Liu and the Pollcats hold their title or will the soon to be announced challenger be hoisting the trophy at the end of the night?
+      p Find out on Friday, November 4th 2016.
+      p After the battle, stick around for late night blues until 4AM with Red Maple Blues.
 
-block content
-  h1= title
-  p Welcome to #{title}
+    a#item(onclick="setUpReg();") Purchase your ticket
+
+    #block
+
+    #details
+      p#closep
+        span#close(onclick="closeReg()") x
+      form(action="create",method="post")
+        span Email address:
+        input#email(type=email,name="email")
+        br
+        span Name:
+        input#name(type=text,name="name")
+        br
+        span Ticket type:
+        select#type(name="type")
+          option(value="regular") Regular ($35)
+          option(value="student") Student ($30)
+        br
+        br
+        button(type="submit",onclick="stagePayment();") Pay with Paypal

@@ -55,7 +55,7 @@ app.use(session({
   },
   store: new MongoStore({
     mongooseConnection: db,
-    touchAfter: 8 * 3600 // Don't update session entry more than once in 8 hrs
+    //touchAfter: 8 * 3600 // Don't update session entry more than once in 8 hrs
   }),
   resave: false, // Don't save session if unmodified
   saveUninitialized: false // Don't create session until something stored
