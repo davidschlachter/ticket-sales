@@ -1,0 +1,18 @@
+{
+  "name": "tickets",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cookie-parser": "*",
+    "debug": "*",
+    "express": "*",
+    "pug": "~2.0.0-alpha6",
+    "morgan": "~1.7.0",
+    "node-sass-middleware": "*",
+    "serve-favicon": "*"
+  }
+}
