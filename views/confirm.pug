@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='stylesheets/style.css')
+    script(src='javascripts/main.js')
+    meta(name="viewport",content="width=device-width, initial-scale=1")
+  body
+    #description
+      h1 Confirm your purchase
+      h2 Your details
+      #purchaseDetails
+        p Name: &nbsp;
+          = userName
+        p Email address: &nbsp;
+          = userEmail
+        p Ticket type: &nbsp;
+          = userType
+      p To continue, click "puchase". Your Paypal account will be charged &nbsp;
+        = userAmount
+      a(href="execute")
+        div#purchase Purchase
