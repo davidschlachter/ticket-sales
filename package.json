@@ -12,8 +12,10 @@
     "debug": "*",
     "express": "*",
     "express-session": "^1.14.1",
+    "mongoose": "^4.5.10",
     "morgan": "~1.7.0",
     "node-sass-middleware": "*",
+    "paypal-rest-sdk": "^1.6.9",
     "pug": "~2.0.0-alpha6",
     "serve-favicon": "*"
   }
