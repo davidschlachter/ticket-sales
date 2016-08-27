@@ -7,12 +7,14 @@
   },
   "dependencies": {
     "body-parser": "*",
+    "connect-mongo": "^1.3.2",
     "cookie-parser": "*",
     "debug": "*",
     "express": "*",
-    "pug": "~2.0.0-alpha6",
+    "express-session": "^1.14.1",
     "morgan": "~1.7.0",
     "node-sass-middleware": "*",
+    "pug": "~2.0.0-alpha6",
     "serve-favicon": "*"
   }
 }

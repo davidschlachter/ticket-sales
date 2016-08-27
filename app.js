@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 
@@ -30,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-app.use(cookieParser());
+app.use(cookieParser(config.opt.sessionsecret));
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
@@ -38,6 +40,23 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('trust proxy', 1);
+app.use(session({
+  proxy: true,
+  secret: config.opt.sessionsecret,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    path: '/'
+  },
+  store: new MongoStore({
+    mongooseConnection: db,
+    touchAfter: 8 * 3600 // Don't update session entry more than once in 8 hrs
+  }),
+  resave: false, // Don't save session if unmodified
+  saveUninitialized: false // Don't create session until something stored
+}));
 
 app.use('/', routes);
 
